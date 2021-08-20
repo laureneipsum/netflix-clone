@@ -4,7 +4,7 @@ import './Row.css';
 
 const base_url ="https://image.tmdb.org/t/p/original/";
 
-const Row = ({ title, fetchUrl}) => {
+function Row({ title, fetchUrl, isLargeRow, fetchImage}) {
     const [movies, setMovies] = useState([]);
 
     useEffect(()=> {
@@ -16,21 +16,22 @@ const Row = ({ title, fetchUrl}) => {
         fetchData();
     }, [fetchUrl]);
 
-    console.table(movies);
-    
+   console.log(movies);
+
      return (
         <div className="row">        
             <h2>{title}</h2>
 
             <div className="row_posters">
+               
                 {movies.map(movie => (
                     <img 
                     key={movie.id}
-                    className="row__poster"
-                    src={`${base_url}${movie.poster_path}`} 
-                    alt="{movie.name}"
+                    className={`row__poster ${isLargeRow && "row__posterLarge"}`}
+                    src={`${base_url}${ isLargeRow ? movie.poster_path : movie.backdrop_path || movie.poster_path  }`} 
+                    alt={movie.title}
                 />
-                )
+                ) 
                     )}
             </div>
         </div>
